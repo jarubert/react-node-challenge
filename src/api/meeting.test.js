@@ -1,5 +1,5 @@
 import { get } from '../lib/HTTP';
-import { getMeetingsFromAPI } from './prompts';
+import { getMeetingsFromAPI } from './';
 
 jest.mock('../lib/HTTP');
 afterEach(() => jest.resetAllMocks());

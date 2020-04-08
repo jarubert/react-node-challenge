@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { ListItem } from 'material-ui';
 import { Meeting } from '../models';
 
@@ -11,7 +12,7 @@ export default class MeetingListItem extends Component {
 
     handleClick() {
         const { meeting, onClick } = this.props;
-        onClick(meeting.id);
+        onClick(meeting);
     }
 
     render() {
@@ -21,7 +22,7 @@ export default class MeetingListItem extends Component {
             <ListItem
                 onClick={this.handleClick}
                 primaryText={meeting.title}
-                secondaryText={meeting.startAt.toLocaleString()}
+                secondaryText={moment(meeting.startAt).format('LLL')}
             />
         );
     }

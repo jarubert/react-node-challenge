@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux-immutable';
-import meetings from './meeting';
+import { meetingsReducer, selectedMeetingReducer } from './meeting';
+import notes from './note';
 
 export * from './meeting';
+export * from './note';
 
 export default combineReducers({
-    meetings
+    meetings: meetingsReducer,
+    notes,
+    selectedMeeting: selectedMeetingReducer
 });
