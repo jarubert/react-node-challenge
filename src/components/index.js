@@ -1,2 +1,2 @@
 export { default as MeetingListItem } from './MeetingListItem';
-export { default as MeetingNoteForm } from './MeetingNoteForm';
+export { default as NoteCard } from './NoteCard';

@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { List } from 'material-ui';
 import { MeetingListItem } from '../../components';
-import { fetchMeetings, fetchNotes, selectMeeting } from '../../ducks';
+import { fetchMeetings } from '../../ducks';
 import { getMeetings } from '../../selectors';
 
 class MeetingsList extends Component {
@@ -14,17 +14,14 @@ class MeetingsList extends Component {
     }
 
     render() {
-        const { meetings, onFetchNotes, onSelectMeeting } = this.props;
+        const { meetings, onSelectMeeting } = this.props;
         return (
             <List style={{ width: 300 }}>
                 {meetings.map(meeting => (
                     <MeetingListItem
                         key={meeting.id}
                         meeting={meeting}
-                        onClick={selectedMeeting => {
-                            onSelectMeeting(selectedMeeting);
-                            onFetchNotes(selectedMeeting.id);
-                        }}
+                        onClick={selectedMeeting => onSelectMeeting(selectedMeeting)}
                     />
                 ))}
             </List>
@@ -35,8 +32,7 @@ class MeetingsList extends Component {
 MeetingsList.propTypes = {
     meetings: PropTypes.instanceOf(Immutable.List).isRequired,
     onFetchMeetings: PropTypes.func.isRequired,
-    onSelectMeeting: PropTypes.func.isRequired,
-    onFetchNotes: PropTypes.func.isRequired
+    onSelectMeeting: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -47,9 +43,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onFetchMeetings: () => dispatch(fetchMeetings()),
-        onFetchNotes: meetingId => dispatch(fetchNotes(meetingId)),
-        onSelectMeeting: meeting => dispatch(selectMeeting(meeting))
+        onFetchMeetings: () => dispatch(fetchMeetings())
     };
 }
 

@@ -1,36 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { List } from 'material-ui';
 import { Meeting, Note } from '../../models';
-import { createNote } from '../../ducks';
+import { createNote, fetchNotes } from '../../ducks';
 import { getNotes, getSelectedMeeting } from '../../selectors';
-import { MeetingNoteForm } from '../../components';
+import NoteForm from '../NoteForm/NoteForm';
+import NoteList from '../NoteList/NoteList';
 
 class MeetingDetail extends Component {
-    // state = { selectedMeetingId: null };
-
-    // onMeetingSelect = meetingId => {
-    //     this.setState({ selectedMeetingId: meetingId });
-    // };
-
     onSubmit(noteInput) {
-        const { selectedMeeting, onCreateNote } = this.props;
-        onCreateNote(new Note({ text: noteInput, meetingId: selectedMeeting.id }));
-    };
+        const { selectedMeeting, onCreateNote, onFetchNotes } = this.props;
+        onCreateNote(new Note({ id: undefined, text: noteInput, meetingId: selectedMeeting.id }));
+        onFetchNotes(selectedMeeting.id);
+    }
 
     render() {
-        const { notes, selectedMeeting } = this.props;
+        const { selectedMeeting } = this.props;
         if (selectedMeeting !== null) {
             return (
-                <div>
-                    <MeetingNoteForm meetingId={selectedMeeting.id} onSubmitAction={() => this.onSubmit}/>
-                    <List style={{ width: 300 }}>
-                        {notes.map(note => (
-                            <div key={note.id}>{note.text}</div>
-                        ))}
-                    </List>
+                <div style={{ paddingLeft: '10px', paddingTop: '70px' }}>
+                    <h3>{selectedMeeting.title}</h3>
+                    <NoteForm onSubmitAction={newNote => this.onSubmit(newNote)} />
+                    <NoteList />
                 </div>
             );
         }
@@ -39,9 +30,9 @@ class MeetingDetail extends Component {
 }
 
 MeetingDetail.propTypes = {
-    notes: PropTypes.instanceOf(Immutable.List).isRequired,
     selectedMeeting: PropTypes.instanceOf(Meeting),
-    onCreateNote: PropTypes.func.isRequired
+    onCreateNote: PropTypes.func.isRequired,
+    onFetchNotes: PropTypes.func.isRequired
 };
 
 MeetingDetail.defaultProps = {
@@ -57,7 +48,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onCreateNote: note => dispatch(createNote(note))
+        onCreateNote: note => dispatch(createNote(note)),
+        onFetchNotes: meetingId => dispatch(fetchNotes(meetingId))
     };
 }
 

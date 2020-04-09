@@ -5,6 +5,8 @@ import { Note } from '../models';
 export const fetchNotes = createAction('FETCH_NOTES');
 export const fetchNotesCompleted = createAction('FETCH_NOTES_COMPLETED');
 export const createNote = createAction('CREATE_NOTE');
+export const editNote = createAction('EDIT_NOTE');
+export const deleteNote = createAction('DELETE_NOTE');
 
 export default handleActions(
     {
